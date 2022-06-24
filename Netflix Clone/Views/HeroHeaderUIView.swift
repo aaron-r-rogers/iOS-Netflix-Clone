@@ -9,6 +9,7 @@ import UIKit
 
 class HeroHeaderUIView: UIView {
     
+    
     private let downloadButton: UIButton = {
         let button = UIButton()
         button.setTitle("Download", for: .normal)
@@ -20,6 +21,7 @@ class HeroHeaderUIView: UIView {
     }()
     
     private let playButton: UIButton = {
+       
         let button = UIButton()
         button.setTitle("Play", for: .normal)
         button.layer.borderColor = UIColor.white.cgColor
@@ -33,9 +35,10 @@ class HeroHeaderUIView: UIView {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.image = UIImage(named: "Top_Gun_Maverick")
+        imageView.image = UIImage(named: "heroImage")
         return imageView
     }()
+
     
     private func addGradient() {
         let gradientLayer = CAGradientLayer()
@@ -57,20 +60,31 @@ class HeroHeaderUIView: UIView {
     }
     
     private func applyConstraints() {
+        
         let playButtonConstraints = [
-            playButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 75),
-            playButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -45),
+            playButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 70),
+            playButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -50),
             playButton.widthAnchor.constraint(equalToConstant: 120)
         ]
         
         let downloadButtonConstraints = [
-            downloadButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -75),
-            downloadButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -45),
+            downloadButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -70),
+            downloadButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -50),
             downloadButton.widthAnchor.constraint(equalToConstant: 120)
         ]
         
         NSLayoutConstraint.activate(playButtonConstraints)
         NSLayoutConstraint.activate(downloadButtonConstraints)
+    }
+    
+    
+    
+    public func configure(with model: TitleViewModel) {
+        guard let url = URL(string: "https://image.tmdb.org/t/p/w500/\(model.posterURL)") else {
+            return
+        }
+        
+        heroImageView.sd_setImage(with: url, completed: nil)
     }
     
     override func layoutSubviews() {
